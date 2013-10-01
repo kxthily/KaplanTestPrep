@@ -72,11 +72,32 @@ namespace KaplanTestPrep.Data.Services.Implementations {
 		}
 
 		public IEnumerable<CourseData> GetAllCourses() {
-			throw new NotImplementedException();
+			List<CourseData> allCourses = new List<CourseData>();
+			using (KaplanTestPrepEntities con = new KaplanTestPrepEntities()) {
+				var courses = con.Courses;
+				if (courses != null) {
+					foreach (Course c in courses) {
+						allCourses.Add(new CourseData {
+							CourseId = c.CourseId,
+							Title = c.Title,
+							MaxEnrollmentCount = c.MaxEnrollmentCount
+						});
+					}
+				}
+			}
+			return allCourses;
 		}
 
 		public void DeleteAll() {
-			throw new NotImplementedException();
+			using (KaplanTestPrepEntities con = new KaplanTestPrepEntities()) {
+				var courses = con.Courses;
+				if (courses != null) {
+					foreach (Course c in courses) {
+						con.Courses.Remove(c);
+					}
+					con.SaveChanges();
+				}
+			}
 		}
 	}
 }

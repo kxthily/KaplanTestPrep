@@ -81,14 +81,16 @@ namespace KaplanTestPrep.Data.Services.Implementations {
 		public IEnumerable<StudentData> GetAllStudents() {
 			List<StudentData> allStudents = new List<StudentData>();
 			using (KaplanTestPrepEntities con = new KaplanTestPrepEntities()) {
-				List<Student> students = con.Students.ToList<Student>();
-				foreach (Student s in students) {
-					allStudents.Add(new StudentData {
-						StudentId = s.StudentId,
-						FirstName = s.FirstName,
-						LastName = s.LastName,
-						DateCreated = s.DateCreated
-					});
+				var students = con.Students;
+				if (students != null) {
+					foreach (Student s in students) {
+						allStudents.Add(new StudentData {
+							StudentId = s.StudentId,
+							FirstName = s.FirstName,
+							LastName = s.LastName,
+							DateCreated = s.DateCreated
+						});
+					}
 				}
 				return allStudents;
 			}
