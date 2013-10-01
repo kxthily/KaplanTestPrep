@@ -96,6 +96,9 @@
     <Compile Include="Services\ICourseDataService.cs" />
     <Compile Include="Services\IDataManagerService.cs" />
     <Compile Include="Services\IEnrollmentDataService.cs" />
+    <Compile Include="Services\Implementations\SimpleCourseDataService.cs" />
+    <Compile Include="Services\Implementations\SimpleEnrollmentDataService.cs" />
+    <Compile Include="Services\Implementations\SimpleStudentDataService.cs" />
     <Compile Include="Services\IStudentDataService.cs" />
     <Compile Include="Student.cs">
       <DependentUpon>Model1.tt</DependentUpon>

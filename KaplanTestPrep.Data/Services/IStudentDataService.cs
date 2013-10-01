@@ -7,10 +7,11 @@ using KaplanTestPrep.Data.Models;
 namespace KaplanTestPrep.Data.Services {
 	interface IStudentDataService {
 		StudentData GetStudent(int studentId);
-		void AddStudent(StudentData student);
+		IEnumerable<StudentData> GetStudents(string FirstName, string LastName);
+		void AddStudent(StudentData studentData);
 		void DeleteStudent(int studentId);
-		//bool UpdateStudent(StudentData student);
+		bool UpdateStudent(StudentData studentData);
 		IEnumerable<StudentData> GetAllStudents();
-		
+		void DeleteAll();
 	}
 }

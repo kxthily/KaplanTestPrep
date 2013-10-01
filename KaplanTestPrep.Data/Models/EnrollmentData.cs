@@ -5,7 +5,7 @@ using System.Text;
 
 namespace KaplanTestPrep.Data.Models {
 	class EnrollmentData {
-		public int EnrollmentId { get; set; }
+		public int EnrollmentId { get; internal set; }
 		public int StudentId { get; set; }
 		public int CourseId { get; set; }
 	}
