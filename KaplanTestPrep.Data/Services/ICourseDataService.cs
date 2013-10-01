@@ -2,7 +2,7 @@
 using KaplanTestPrep.Data.Models;
 
 namespace KaplanTestPrep.Data.Services {
-	interface ICourseDataService {
+	public interface ICourseDataService {
 		CourseData GetCourse(int courseId);
 		CourseData GetCourse(string courseTitle);
 		void AddCourse(CourseData courseData);

@@ -5,7 +5,7 @@ using System.Text;
 using KaplanTestPrep.Data.Models;
 
 namespace KaplanTestPrep.Data.Services {
-	interface IStudentDataService {
+	public interface IStudentDataService {
 		StudentData GetStudent(int studentId);
 		IEnumerable<StudentData> GetStudents(string FirstName, string LastName);
 		void AddStudent(StudentData studentData);
