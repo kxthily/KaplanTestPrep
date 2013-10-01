@@ -3,6 +3,10 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KaplanTestPrep", "KaplanTestPrep\KaplanTestPrep.csproj", "{7C9734DF-B163-4B8B-8D5F-61C3AD2F62D1}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "KaplanTestPrep.Data", "KaplanTestPrep.Data", "{4F0167F2-C9F4-412A-BCAF-072B81114BE7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KaplanTestPrep.Data", "KaplanTestPrep.Data\KaplanTestPrep.Data.csproj", "{536CB6EC-7175-4DE8-943A-87DB041EDE9E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -13,8 +17,15 @@ Global
 		{7C9734DF-B163-4B8B-8D5F-61C3AD2F62D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7C9734DF-B163-4B8B-8D5F-61C3AD2F62D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7C9734DF-B163-4B8B-8D5F-61C3AD2F62D1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{536CB6EC-7175-4DE8-943A-87DB041EDE9E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{536CB6EC-7175-4DE8-943A-87DB041EDE9E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{536CB6EC-7175-4DE8-943A-87DB041EDE9E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{536CB6EC-7175-4DE8-943A-87DB041EDE9E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{536CB6EC-7175-4DE8-943A-87DB041EDE9E} = {4F0167F2-C9F4-412A-BCAF-072B81114BE7}
 	EndGlobalSection
 EndGlobal
