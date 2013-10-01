@@ -8,9 +8,9 @@ namespace KaplanTestPrep.Data.Services {
 	interface IDataManagerService {
 		IEnumerable<CourseData> GetAllCourses();
 		IEnumerable<StudentData> GetAllStudents();
-		void AddStudent(StudentData student);
-		void AddCourse(CourseData course);
-		void AddEnrollment(EnrollmentData enrollment);
-		bool Reset();
+		void AddStudent(StudentData studentData);
+		void AddCourse(CourseData courseData);
+		void AddEnrollment(EnrollmentData enrollmentData);
+		void Reset();
 	}
 }

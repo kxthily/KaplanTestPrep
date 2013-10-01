@@ -5,44 +5,43 @@ using System.Text;
 using KaplanTestPrep.Data.Models;
 
 namespace KaplanTestPrep.Data.Services {
-	class DataManagerService : IDataManagerService {
+	public class DataManagerService {
 
-		protected IStudentDataService studentService;
-		protected ICourseDataService courseService;
-		protected IEnrollmentDataService enrollmentService;
+		protected internal IStudentDataService studentService;
+		protected internal ICourseDataService courseService;
+		protected internal IEnrollmentDataService enrollmentService;
 
-		public DataManagerService(IStudentDataService studentService, ICourseDataService courseService,
+		protected internal DataManagerService(IStudentDataService studentService, ICourseDataService courseService,
 									IEnrollmentDataService enrollmentService) {
 			this.studentService = studentService;
 			this.courseService = courseService;
 			this.enrollmentService = enrollmentService;
 		}
 
-		public IEnumerable<CourseData> GetAllCourses() {
-			throw new NotImplementedException();
+		protected virtual IEnumerable<CourseData> GetAllCourses() {
+			return courseService.GetAllCourses();
 		}
 
-		public IEnumerable<StudentData> GetAllStudents() {
-			throw new NotImplementedException();
+		protected virtual IEnumerable<StudentData> GetAllStudents() {
+			return studentService.GetAllStudents();
 		}
 
-		public void AddStudent(StudentData student) {
-			throw new NotImplementedException();
+		protected virtual void AddStudent(StudentData studentData) {
+			studentService.AddStudent(studentData);
 		}
 
-		public void AddCourse(CourseData course) {
-			throw new NotImplementedException();
+		protected virtual void AddCourse(CourseData courseData) {
+			courseService.AddCourse(courseData);
 		}
 
-		public void AddEnrollment(EnrollmentData enrollment) {
-			throw new NotImplementedException();
+		protected virtual void AddEnrollment(EnrollmentData enrollmentData) {
+			enrollmentService.AddEnrollment(enrollmentData);
 		}
 
-		public bool Reset() {
-			throw new NotImplementedException();
-		}
-
-		public void YO() {
+		protected virtual void Reset() {
+			enrollmentService.DeleteAll();
+			courseService.DeleteAll();
+			studentService.DeleteAll();
 		}
 	}
 }
