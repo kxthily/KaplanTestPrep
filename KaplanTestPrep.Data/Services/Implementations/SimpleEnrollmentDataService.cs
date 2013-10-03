@@ -11,7 +11,7 @@ namespace KaplanTestPrep.Data.Services.Implementations {
 			EnrollmentData enrollmentData = null;
 
 			using (KaplanTestPrepEntities con = new KaplanTestPrepEntities()) {
-				Enrollment enrollment = con.Enrollments.Where(x => x.EnrollmentId == enrollmentId).FirstOrDefault();
+				var enrollment = con.Enrollments.Where(x => x.EnrollmentId == enrollmentId).FirstOrDefault();
 				if (enrollment != null) {
 					enrollmentData.EnrollmentId = enrollment.EnrollmentId;
 					enrollmentData.StudentId = (int) enrollment.StudentId;
@@ -25,7 +25,7 @@ namespace KaplanTestPrep.Data.Services.Implementations {
 			EnrollmentData enrollmentData = null;
 
 			using (KaplanTestPrepEntities con = new KaplanTestPrepEntities()) {
-				Enrollment enrollment = con.Enrollments.Where(x => x.CourseId == courseId && x.StudentId == studentId).FirstOrDefault();
+				var enrollment = con.Enrollments.Where(x => x.CourseId == courseId && x.StudentId == studentId).FirstOrDefault();
 				if (enrollment != null) {
 					enrollmentData.EnrollmentId = enrollment.EnrollmentId;
 					enrollmentData.StudentId = (int) enrollment.StudentId;
@@ -35,10 +35,28 @@ namespace KaplanTestPrep.Data.Services.Implementations {
 			return enrollmentData;
 		}
 
+		public EnrollmentData GetEnrollment(string studentFirstName, string studentLastName, string courseTitle) {
+			EnrollmentData enrollmentData = null;
+			using (KaplanTestPrepEntities con = new KaplanTestPrepEntities()) {
+				var student = con.Students.Where(x => x.FirstName.ToLower() == studentFirstName.ToLower()
+														&& x.LastName.ToLower() == studentLastName.ToLower()).FirstOrDefault();
+
+				Course course = con.Courses.Where(x => x.Title.ToLower() == courseTitle.ToLower()).FirstOrDefault();
+				if (student != null && course != null) {
+					var enrollment = con.Enrollments.Where(x => x.StudentId == student.StudentId
+																	&& x.CourseId == course.CourseId).FirstOrDefault();
+					enrollmentData.EnrollmentId = enrollment.EnrollmentId;
+					enrollmentData.StudentId = (int) enrollment.StudentId;
+					enrollmentData.CourseId = enrollmentData.CourseId;
+				}
+			}
+			return enrollmentData;
+		}
+
 		public void AddEnrollment(EnrollmentData enrollmentData) {
 			using (KaplanTestPrepEntities con = new KaplanTestPrepEntities()) {
 
-				Enrollment enrollment = new Enrollment {
+				var enrollment = new Enrollment {
 					CourseId = enrollmentData.CourseId,
 					StudentId = enrollmentData.StudentId
 				};
@@ -49,7 +67,7 @@ namespace KaplanTestPrep.Data.Services.Implementations {
 
 		public void DeleteEnrollment(int enrollmentId) {
 			using (KaplanTestPrepEntities con = new KaplanTestPrepEntities()) {
-				Enrollment enrollment = con.Enrollments.Where(x => x.EnrollmentId == enrollmentId).FirstOrDefault();
+				var enrollment = con.Enrollments.Where(x => x.EnrollmentId == enrollmentId).FirstOrDefault();
 				if (enrollment != null) {
 					con.Enrollments.Remove(enrollment);
 					con.SaveChanges();
@@ -59,7 +77,7 @@ namespace KaplanTestPrep.Data.Services.Implementations {
 
 		public void DeleteEnrollment(int courseId, int studentId) {
 			using (KaplanTestPrepEntities con = new KaplanTestPrepEntities()) {
-				Enrollment enrollment = con.Enrollments.Where(x => x.CourseId == courseId && x.StudentId == studentId).FirstOrDefault();
+				var enrollment = con.Enrollments.Where(x => x.CourseId == courseId && x.StudentId == studentId).FirstOrDefault();
 				if (enrollment != null) {
 					con.Enrollments.Remove(enrollment);
 					con.SaveChanges();
@@ -69,7 +87,7 @@ namespace KaplanTestPrep.Data.Services.Implementations {
 
 		public bool UpdateEnrollment(EnrollmentData enrollmentData) {
 			using (KaplanTestPrepEntities con = new KaplanTestPrepEntities()) {
-				Enrollment enrollment = con.Enrollments.Where(x => x.EnrollmentId == enrollmentData.EnrollmentId).FirstOrDefault();
+				var enrollment = con.Enrollments.Where(x => x.EnrollmentId == enrollmentData.EnrollmentId).FirstOrDefault();
 				if (enrollment != null) {
 					enrollment.StudentId = enrollmentData.StudentId;
 					enrollment.CourseId = enrollmentData.CourseId;
@@ -84,7 +102,7 @@ namespace KaplanTestPrep.Data.Services.Implementations {
 			using (KaplanTestPrepEntities con = new KaplanTestPrepEntities()) {
 				var enrollments = con.Enrollments;
 				if (enrollments != null) {
-					foreach (Enrollment e in enrollments) {
+					foreach (var e in enrollments) {
 						con.Enrollments.Remove(e);
 					}
 					con.SaveChanges();
@@ -97,7 +115,7 @@ namespace KaplanTestPrep.Data.Services.Implementations {
 			using (KaplanTestPrepEntities con = new KaplanTestPrepEntities()) {
 				var enrollments = con.Enrollments;
 				if (enrollments != null) {
-					foreach (Enrollment e in enrollments) {
+					foreach (var e in enrollments) {
 						allEnrollments.Add(new EnrollmentData {
 							EnrollmentId = e.EnrollmentId,
 							StudentId = (int) e.StudentId,
@@ -109,38 +127,17 @@ namespace KaplanTestPrep.Data.Services.Implementations {
 			return allEnrollments;
 		}
 
-		public IEnumerable<EnrollmentData> GetAllEnrollmentsForStudent(int studentId) {
-			List<EnrollmentData> allEnrollments = new List<EnrollmentData>();
-			using (KaplanTestPrepEntities con = new KaplanTestPrepEntities()) {
-				var enrollments = con.Enrollments.Where(x => x.StudentId == studentId);
-				if (enrollments != null) {
-					foreach (Enrollment e in enrollments) {
-						allEnrollments.Add(new EnrollmentData {
-							EnrollmentId = e.EnrollmentId,
-							StudentId = (int) e.StudentId,
-							CourseId = (int) e.CourseId
-						});
-					}
-				}
-			}
-			return allEnrollments;
-		}
+		public int GetNumberEnrolled(string courseTitle) {
+			
+			int enrollmentCount = 0;
 
-		public IEnumerable<EnrollmentData> GetAllEnrollmentsForCourse(int courseId) {
-			List<EnrollmentData> allEnrollments = new List<EnrollmentData>();
 			using (KaplanTestPrepEntities con = new KaplanTestPrepEntities()) {
-				var enrollments = con.Enrollments.Where(x => x.CourseId == courseId);
-				if (enrollments != null) {
-					foreach (Enrollment e in enrollments) {
-						allEnrollments.Add(new EnrollmentData {
-							EnrollmentId = e.EnrollmentId,
-							StudentId = (int) e.StudentId,
-							CourseId = (int) e.CourseId
-						});
-					}
+				var course = con.Courses.Where(x => x.Title.ToLower() == courseTitle.ToLower()).FirstOrDefault();
+				if (course != null) {
+					enrollmentCount = course.Enrollments.Count();
 				}
 			}
-			return allEnrollments;
+			return enrollmentCount;
 		}
 	}
 }

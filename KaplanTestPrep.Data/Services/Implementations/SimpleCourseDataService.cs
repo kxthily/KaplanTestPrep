@@ -9,7 +9,7 @@ namespace KaplanTestPrep.Data.Services.Implementations {
 		public CourseData GetCourse(int courseId) {
 			CourseData courseData = null;
 			using (KaplanTestPrepEntities con = new KaplanTestPrepEntities()) {
-				Course course = con.Courses.Where(x => x.CourseId == courseId).FirstOrDefault();
+				var course = con.Courses.Where(x => x.CourseId == courseId).FirstOrDefault();
 				if (course != null) {
 					courseData.CourseId = course.CourseId;
 					courseData.Title = course.Title;
@@ -23,7 +23,7 @@ namespace KaplanTestPrep.Data.Services.Implementations {
 		public CourseData GetCourse(string courseTitle) {
 			CourseData courseData = null;
 			using (KaplanTestPrepEntities con = new KaplanTestPrepEntities()) {
-				Course course = con.Courses.Where(x => x.Title == courseTitle).FirstOrDefault();
+				var course = con.Courses.Where(x => x.Title.ToLower() == courseTitle.ToLower()).FirstOrDefault();
 				if (course != null) {
 					courseData.CourseId = course.CourseId;
 					courseData.Title = course.Title;
@@ -36,7 +36,7 @@ namespace KaplanTestPrep.Data.Services.Implementations {
 
 		public void AddCourse(CourseData courseData) {
 			using (KaplanTestPrepEntities con = new KaplanTestPrepEntities()) {
-				Course course = new Course {
+				var course = new Course {
 					Title = courseData.Title,
 					StartDate = courseData.StartDate,
 					MaxEnrollmentCount = courseData.MaxEnrollmentCount
@@ -48,7 +48,7 @@ namespace KaplanTestPrep.Data.Services.Implementations {
 
 		public void DeleteCourse(int courseId) {
 			using (KaplanTestPrepEntities con = new KaplanTestPrepEntities()) {
-				Course course = con.Courses.Where(x => x.CourseId == courseId).FirstOrDefault();
+				var course = con.Courses.Where(x => x.CourseId == courseId).FirstOrDefault();
 				if (course != null) {
 					con.Courses.Remove(course);
 					con.SaveChanges();
@@ -58,7 +58,7 @@ namespace KaplanTestPrep.Data.Services.Implementations {
 
 		public bool UpdateCourse(CourseData courseData) {
 			using (KaplanTestPrepEntities con = new KaplanTestPrepEntities()) {
-				Course course = con.Courses.Where(x => x.CourseId == courseData.CourseId).FirstOrDefault();
+				var course = con.Courses.Where(x => x.CourseId == courseData.CourseId).FirstOrDefault();
 				if (course != null) {
 					course.Title = courseData.Title;
 					course.StartDate = courseData.StartDate;
@@ -76,7 +76,7 @@ namespace KaplanTestPrep.Data.Services.Implementations {
 			using (KaplanTestPrepEntities con = new KaplanTestPrepEntities()) {
 				var courses = con.Courses;
 				if (courses != null) {
-					foreach (Course c in courses) {
+					foreach (var c in courses) {
 						allCourses.Add(new CourseData {
 							CourseId = c.CourseId,
 							Title = c.Title,
@@ -92,7 +92,7 @@ namespace KaplanTestPrep.Data.Services.Implementations {
 			using (KaplanTestPrepEntities con = new KaplanTestPrepEntities()) {
 				var courses = con.Courses;
 				if (courses != null) {
-					foreach (Course c in courses) {
+					foreach (var c in courses) {
 						con.Courses.Remove(c);
 					}
 					con.SaveChanges();

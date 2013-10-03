@@ -11,7 +11,7 @@ namespace KaplanTestPrep.Data.Services.Implementations {
 			StudentData studentData = null;
 
 			using (KaplanTestPrepEntities con = new KaplanTestPrepEntities()) {
-				Student student = con.Students.Where(x => x.StudentId == studentId).FirstOrDefault();
+				var student = con.Students.Where(x => x.StudentId == studentId).FirstOrDefault();
 				if (student != null) {
 					studentData.StudentId = student.StudentId;
 					studentData.FirstName = student.FirstName;
@@ -22,11 +22,12 @@ namespace KaplanTestPrep.Data.Services.Implementations {
 			return studentData;
 		}
 
-		public StudentData GetStudent(string FirstName, string LastName) {
+		public StudentData GetStudent(string firstName, string lastName) {
 			StudentData studentData = null;
 
 			using (KaplanTestPrepEntities con = new KaplanTestPrepEntities()) {
-				var student = con.Students.Where(x => x.FirstName == FirstName && x.LastName == LastName).FirstOrDefault();
+				var student = con.Students.Where(x => x.FirstName.ToLower() == firstName.ToLower() 
+													&& x.LastName.ToLower() == lastName.ToLower()).FirstOrDefault();
 				
 				if (student != null) {
 					studentData.StudentId = student.StudentId;
@@ -40,7 +41,7 @@ namespace KaplanTestPrep.Data.Services.Implementations {
 
 		public void AddStudent(StudentData studentData) {
 			using (KaplanTestPrepEntities con = new KaplanTestPrepEntities()) {
-				Student student = new Student {
+				var student = new Student {
 					FirstName = studentData.FirstName,
 					LastName = studentData.LastName,
 					DateCreated = studentData.DateCreated
@@ -52,7 +53,7 @@ namespace KaplanTestPrep.Data.Services.Implementations {
 
 		public void DeleteStudent(int studentId) {
 			using (KaplanTestPrepEntities con = new KaplanTestPrepEntities()) {
-				Student student = con.Students.Where(x => x.StudentId == studentId).FirstOrDefault();
+				var student = con.Students.Where(x => x.StudentId == studentId).FirstOrDefault();
 				if (student != null) {
 					con.Students.Remove(student);
 					con.SaveChanges();
@@ -62,7 +63,7 @@ namespace KaplanTestPrep.Data.Services.Implementations {
 
 		public bool UpdateStudent(StudentData studentData) {
 			using (KaplanTestPrepEntities con = new KaplanTestPrepEntities()) {
-				Student student = con.Students.Where(x => x.StudentId == studentData.StudentId).FirstOrDefault();
+				var student = con.Students.Where(x => x.StudentId == studentData.StudentId).FirstOrDefault();
 				if (student != null) {
 					student.FirstName = studentData.FirstName;
 					student.LastName = studentData.LastName;
@@ -97,7 +98,7 @@ namespace KaplanTestPrep.Data.Services.Implementations {
 			using (KaplanTestPrepEntities con = new KaplanTestPrepEntities()) {
 				var students = con.Students;
 				if (students != null) {
-					foreach (Student s in students) {
+					foreach (var s in students) {
 						con.Students.Remove(s);
 					}
 					con.SaveChanges();

@@ -68,11 +68,27 @@ namespace KaplanTestPrep.Data.Services {
 			studentService.DeleteAll();
 		}
 
-		public bool StudentExists(string firstName, string lastName) {
+		public virtual StudentData GetStudent(string firstName, string lastName) {
+			return studentService.GetStudent(firstName, lastName);
+		}
+
+		public virtual CourseData GetCourse(string courseTitle) {
+			return courseService.GetCourse(courseTitle);
+		}
+
+		public virtual EnrollmentData GetEnrollment(string studentFirstName, string studentLastName, string courseTitle) {
+			return enrollmentService.GetEnrollment(studentFirstName, studentLastName, courseTitle);
+		}
+
+		public virtual int GetEnrollmentCount(string courseTitle) {
+			return enrollmentService.GetNumberEnrolled(courseTitle);
+		}
+
+		public virtual bool StudentExists(string firstName, string lastName) {
 			return (studentService.GetStudent(firstName, lastName) != null);
 		}
 
-		public bool CourseExists(string courseTitle) {
+		public virtual bool CourseExists(string courseTitle) {
 			return (courseService.GetCourse(courseTitle) != null);
 		}
 	}

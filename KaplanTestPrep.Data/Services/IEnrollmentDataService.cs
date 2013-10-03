@@ -7,13 +7,13 @@ namespace KaplanTestPrep.Data.Services {
 	public interface IEnrollmentDataService {
 		EnrollmentData GetEnrollment(int enrollmentId);
 		EnrollmentData GetEnrollment(int courseId, int studentId);
+		EnrollmentData GetEnrollment(string studentFirstName, string studentLastName, string courseTitle);
 		void AddEnrollment(EnrollmentData enrollmentData);
 		void DeleteEnrollment(int enrollmentId);
 		void DeleteEnrollment(int courseId, int studentId);
 		bool UpdateEnrollment(EnrollmentData enrollmentData);
 		void DeleteAll();
 		IEnumerable<EnrollmentData> GetAllEnrollments();
-		IEnumerable<EnrollmentData> GetAllEnrollmentsForStudent(int studentId);
-		IEnumerable<EnrollmentData> GetAllEnrollmentsForCourse(int courseId);
+		int GetNumberEnrolled(string courseTitle);
 	}
 }

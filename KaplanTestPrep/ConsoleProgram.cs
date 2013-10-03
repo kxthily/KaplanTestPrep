@@ -128,13 +128,13 @@ namespace KaplanTestPrep {
 			}
 
 			Console.WriteLine("Is there a maximum enrollment count? y/n");
-			string enteredValue = Console.ReadLine().ToLower();
+			string enteredValue = Console.ReadLine();
 			if (enteredValue == "y") {
 				Console.WriteLine("Please enter the maximum enrollment count and press enter.");
 				int count;
 				enteredValue = Console.ReadLine();
 				if (int.TryParse(enteredValue, out count)) {
-					dataService.AddCourse(enteredTitle, DateTime.Parse(enteredDate), count);
+					dataService.AddCourse(enteredTitle, DateTime.Parse(enteredDate).Date, count);
 
 				} else {
 					Console.WriteLine("Invalid input. Please try again.");
@@ -150,7 +150,47 @@ namespace KaplanTestPrep {
 		}
 
 		private void AddEnrollment() {
+			Console.WriteLine("Please enter the student's first and last name in this format and press enter:");
+			Console.WriteLine("Mary Sue");
+			string enteredName = Console.ReadLine();
+			string[] fullName = enteredName.Split(' ');
+			if (fullName.Length != 2) {
+				Console.WriteLine("Invalid input. Please try again.");
+				return;
+			}
 
+			if (!dataService.StudentExists(fullName[0], fullName[1])) {
+				Console.WriteLine("This student does not exist in the database. Please try again.");
+				return;
+			}
+
+			Console.WriteLine("Please enter the course title.");
+			string enteredCourse = Console.ReadLine();
+
+			CourseData course = dataService.GetCourse(enteredCourse);
+
+			if (course == null) {
+				Console.WriteLine("This course does not exist in the database. Please try again.");
+				return;
+			}
+
+			if (course.MaxEnrollmentCount < dataService.GetEnrollmentCount(enteredCourse) + 1) {
+				Console.WriteLine("Matching course has exceeded maximum enrollment count.");
+				return;
+			}
+
+			if (course.StartDate < DateTime.UtcNow.Date) {
+				Console.WriteLine("Matching course start date has passed.");
+				return;
+			}
+
+			dataService.AddEnrollment(fullName[0], fullName[1], course.Title);
+			Console.WriteLine("Entry saved");
+		}
+
+		private void Reset() {
+			dataService.Reset();
+			Console.WriteLine("Database cleared.");
 		}
 
 		private bool ProcessStudentName(string fullName) {
