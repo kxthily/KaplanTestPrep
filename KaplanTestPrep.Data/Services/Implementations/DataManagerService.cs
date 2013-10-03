@@ -30,7 +30,7 @@ namespace KaplanTestPrep.Data.Services {
 			StudentData student = new StudentData {
 				FirstName = firstName,
 				LastName = lastName,
-				DateCreated = DateTime.UtcNow
+				DateCreated = DateTime.Now.Date
 			};
 			studentService.AddStudent(student);
 		}
@@ -69,11 +69,11 @@ namespace KaplanTestPrep.Data.Services {
 		}
 
 		public bool StudentExists(string firstName, string lastName) {
-			return (studentService.GetStudent(firstName, lastName) == null);
+			return (studentService.GetStudent(firstName, lastName) != null);
 		}
 
 		public bool CourseExists(string courseTitle) {
-			return (courseService.GetCourse(courseTitle) == null);
+			return (courseService.GetCourse(courseTitle) != null);
 		}
 	}
 }

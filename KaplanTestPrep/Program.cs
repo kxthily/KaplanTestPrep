@@ -6,6 +6,8 @@ using System.Text;
 namespace KaplanTestPrep {
 	class Program {
 		static void Main(string[] args) {
+			ConsoleProgram program = ConsoleProgram.Instance;
+			program.ExecuteCommand("add-course");
 		}
 	}
 }
