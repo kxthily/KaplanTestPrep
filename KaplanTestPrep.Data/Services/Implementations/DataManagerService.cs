@@ -7,9 +7,9 @@ using KaplanTestPrep.Data.Models;
 namespace KaplanTestPrep.Data.Services {
 	public class DataManagerService {
 
-		protected internal IStudentDataService studentService;
-		protected internal ICourseDataService courseService;
-		protected internal IEnrollmentDataService enrollmentService;
+		private IStudentDataService studentService;
+		private ICourseDataService courseService;
+		private IEnrollmentDataService enrollmentService;
 
 		protected internal DataManagerService(IStudentDataService studentService, ICourseDataService courseService,
 									IEnrollmentDataService enrollmentService) {
@@ -18,30 +18,62 @@ namespace KaplanTestPrep.Data.Services {
 			this.enrollmentService = enrollmentService;
 		}
 
-		protected virtual IEnumerable<CourseData> GetAllCourses() {
+		public virtual IEnumerable<CourseData> GetAllCourses() {
 			return courseService.GetAllCourses();
 		}
 
-		protected virtual IEnumerable<StudentData> GetAllStudents() {
+		public virtual IEnumerable<StudentData> GetAllStudents() {
 			return studentService.GetAllStudents();
 		}
 
-		protected virtual void AddStudent(StudentData studentData) {
-			studentService.AddStudent(studentData);
+		public virtual void AddStudent(string firstName, string lastName) {
+			StudentData student = new StudentData {
+				FirstName = firstName,
+				LastName = lastName,
+				DateCreated = DateTime.UtcNow
+			};
+			studentService.AddStudent(student);
 		}
 
-		protected virtual void AddCourse(CourseData courseData) {
-			courseService.AddCourse(courseData);
+		public virtual void AddCourse(string courseTitle, DateTime startDate) {
+			CourseData course = new CourseData {
+				Title = courseTitle,
+				StartDate = startDate
+			};
+			courseService.AddCourse(course);
 		}
 
-		protected virtual void AddEnrollment(EnrollmentData enrollmentData) {
-			enrollmentService.AddEnrollment(enrollmentData);
+		public virtual void AddCourse(string courseTitle, DateTime startDate, int maxEnrollmentCount) {
+			CourseData course = new CourseData {
+				Title = courseTitle,
+				StartDate = startDate,
+				MaxEnrollmentCount = maxEnrollmentCount
+			};
+			courseService.AddCourse(course);
 		}
 
-		protected virtual void Reset() {
+		public virtual void AddEnrollment(string studentFirstName, string studentLastName, string courseTitle) {
+			StudentData student = studentService.GetStudent(studentFirstName, studentLastName);
+			CourseData course = courseService.GetCourse(courseTitle);
+			EnrollmentData enrollment = new EnrollmentData {
+				StudentId = student.StudentId,
+				CourseId = course.CourseId
+			};
+			enrollmentService.AddEnrollment(enrollment);
+		}
+
+		public void Reset() {
 			enrollmentService.DeleteAll();
 			courseService.DeleteAll();
 			studentService.DeleteAll();
+		}
+
+		public bool StudentExists(string firstName, string lastName) {
+			return (studentService.GetStudent(firstName, lastName) == null);
+		}
+
+		public bool CourseExists(string courseTitle) {
+			return (courseService.GetCourse(courseTitle) == null);
 		}
 	}
 }

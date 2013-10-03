@@ -5,7 +5,7 @@ using System.Text;
 using KaplanTestPrep.Data.Models;
 
 namespace KaplanTestPrep.Data.Services.Implementations {
-	class SimpleCourseDataService : ICourseDataService {
+	public class SimpleCourseDataService : ICourseDataService {
 		public CourseData GetCourse(int courseId) {
 			CourseData courseData = null;
 			using (KaplanTestPrepEntities con = new KaplanTestPrepEntities()) {

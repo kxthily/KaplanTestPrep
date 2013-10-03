@@ -5,7 +5,7 @@ using System.Text;
 using KaplanTestPrep.Data.Models;
 
 namespace KaplanTestPrep.Data.Services.Implementations {
-	class SimpleStudentDataService : IStudentDataService {
+	public class SimpleStudentDataService : IStudentDataService {
 		
 		public StudentData GetStudent(int studentId) {
 			StudentData studentData = null;
@@ -22,23 +22,20 @@ namespace KaplanTestPrep.Data.Services.Implementations {
 			return studentData;
 		}
 
-		public IEnumerable<StudentData> GetStudents(string FirstName, string LastName) {
-			List<StudentData> similarStudents = new List<StudentData>();
+		public StudentData GetStudent(string FirstName, string LastName) {
+			StudentData studentData = null;
+
 			using (KaplanTestPrepEntities con = new KaplanTestPrepEntities()) {
-				var students = con.Students.Where(x => x.FirstName == FirstName && x.LastName == LastName);
-				if (students != null) {
-					foreach (Student s in students) {
-						similarStudents.Add(new StudentData {
-							StudentId = s.StudentId,
-							FirstName = s.FirstName,
-							LastName = s.LastName,
-							DateCreated = s.DateCreated
-						});
-					}
+				var student = con.Students.Where(x => x.FirstName == FirstName && x.LastName == LastName).FirstOrDefault();
+				
+				if (student != null) {
+					studentData.StudentId = student.StudentId;
+					studentData.FirstName = student.FirstName;
+					studentData.LastName = student.LastName;
+					studentData.DateCreated = student.DateCreated;		
 				}
 			}
-			return similarStudents;
-
+			return studentData;
 		}
 
 		public void AddStudent(StudentData studentData) {

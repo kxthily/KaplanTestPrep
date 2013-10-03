@@ -5,7 +5,8 @@ using System.Text;
 using KaplanTestPrep.Data.Models;
 
 namespace KaplanTestPrep.Data.Services.Implementations {
-	class SimpleEnrollmentDataService : IEnrollmentDataService {
+	public class SimpleEnrollmentDataService : IEnrollmentDataService {
+		
 		public EnrollmentData GetEnrollment(int enrollmentId) {
 			EnrollmentData enrollmentData = null;
 
@@ -36,6 +37,7 @@ namespace KaplanTestPrep.Data.Services.Implementations {
 
 		public void AddEnrollment(EnrollmentData enrollmentData) {
 			using (KaplanTestPrepEntities con = new KaplanTestPrepEntities()) {
+
 				Enrollment enrollment = new Enrollment {
 					CourseId = enrollmentData.CourseId,
 					StudentId = enrollmentData.StudentId
